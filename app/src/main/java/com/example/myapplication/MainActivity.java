@@ -6,14 +6,23 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationBarItemView;
+import com.google.android.material.navigation.NavigationView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,12 +32,39 @@ public class MainActivity extends AppCompatActivity {
     TextView lat;
     TextView lng;
     TextView add;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
+       setSupportActionBar(toolbar);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+       navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+           @Override
+           public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+               int id = menuItem.getItemId();
+               Log.d("NavigationDrawer", "Logout Button Clicked");
+               if (id == R.id.nav_logout) {
+                   Toast.makeText(MainActivity.this,"Logout success",Toast.LENGTH_LONG).show();
+                   Intent logoutIntent =  new Intent(MainActivity.this, IntroActivity.class);
+                   logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                   startActivity(logoutIntent);
+
+               }
+               return true;
+           }
+       });
          service= new  Intent(this,LocationService.class);
          lat = findViewById(R.id.lat);
          lng = findViewById(R.id.lng);
