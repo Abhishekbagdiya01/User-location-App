@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -27,7 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     Intent service;
     TextView lat;
     TextView lng;
@@ -35,6 +36,17 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("RestrictedApi")
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +58,15 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
+         actionBarDrawerToggle = new ActionBarDrawerToggle(MainActivity.this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-       navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                int id = menuItem.getItemId();
+
                Log.d("NavigationDrawer", "Logout Button Clicked");
                if (id == R.id.nav_logout) {
                    Toast.makeText(MainActivity.this,"Logout success",Toast.LENGTH_LONG).show();
@@ -62,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                    startActivity(logoutIntent);
 
                }
-               return true;
+               return false;
            }
        });
          service= new  Intent(this,LocationService.class);
@@ -119,5 +132,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Location Update", "Latitude: " + latitude + ", Longitude: " + longitude + "Address : " + address);
         Toast.makeText(this,"LAT : "+ latitude + " LNG : "+ longitude + " Address : " +address ,Toast.LENGTH_SHORT ).show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
