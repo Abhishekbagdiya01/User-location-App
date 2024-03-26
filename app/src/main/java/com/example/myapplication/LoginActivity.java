@@ -46,7 +46,7 @@ TextView registerBtn;
 
     void login(){
         if (email.getText().length() != 0 && password.getText().length() != 0){
-            Toast.makeText(this,"success",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Login success",Toast.LENGTH_SHORT).show();
             Intent loginSuccess = new Intent(this,MainActivity.class);
             loginSuccess.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(loginSuccess);

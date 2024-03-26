@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationBarItemView;
@@ -74,7 +75,20 @@ public class MainActivity extends AppCompatActivity  {
                    logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                    startActivity(logoutIntent);
 
+               }else if(id == R.id.nav_profile){
+                   Toast.makeText(MainActivity.this,"Profile",Toast.LENGTH_LONG).show();
+               }else if(id == R.id.nav_login){
+                   Toast.makeText(MainActivity.this,"Login",Toast.LENGTH_LONG).show();
+               }else if(id == R.id.nav_setting){
+                   Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_LONG).show();
+               }else if(id == R.id.nav_view){
+                   Toast.makeText(MainActivity.this,"View",Toast.LENGTH_LONG).show();
+               }else if(id == R.id.nav_rate){
+                   Toast.makeText(MainActivity.this,"Rate us",Toast.LENGTH_LONG).show();
+               }else if(id == R.id.nav_share){
+                   Toast.makeText(MainActivity.this,"Share",Toast.LENGTH_LONG).show();
                }
+               drawerLayout.closeDrawer(GravityCompat.START);
                return false;
            }
        });
